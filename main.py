@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uuid
 
@@ -9,6 +10,15 @@ stored_urls = set()
 
 class CreateEndpointRequest(BaseModel):
     sheet: str
+
+# CORS configuration to allow all origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/create-endpoint")
 def create_endpoint(request: CreateEndpointRequest):
